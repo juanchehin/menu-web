@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Menu-Rápido | Sistema Integral de Gestión de Pedidos de Comida</title>
+  <meta name="description" content="Menu-Rápido: sistema integral para gestionar pedidos de comida. Panel de administración completo y experiencia de cliente optimizada." />
+  <style>
+    :root {
+      --bg: #0f172a;        /* slate-900 */
+      --bg-soft: #020617;   /* slate-950 */
+      --card: #020617;
+      --primary: #22c55e;   /* green-500 */
+      --primary-600: #16a34a;
+      --accent: #38bdf8;    /* sky-400 */
+      --text: #e5e7eb;      /* gray-200 */
+      --muted: #9ca3af;     /* gray-400 */
+      --border: #1f2933;    /* slate-ish */
+      --shadow: 0 10px 30px rgba(0,0,0,.35);
+      --radius: 16px;
+    }
+
+    * { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, Arial, "Apple Color Emoji", "Segoe UI Emoji"; background: linear-gradient(180deg, var(--bg) 0%, var(--bg-soft) 100%); color: var(--text); }
+    a { color: inherit; text-decoration: none; }
+    img { max-width: 100%; display: block; }
+
+    /* Layout */
+    .container { max-width: 1200px; margin: 0 auto; padding: 24px; }
+    .grid { display: grid; gap: 24px; }
+    .grid-2 { grid-template-columns: repeat(2, minmax(0,1fr)); }
+    .grid-3 { grid-template-columns: repeat(3, minmax(0,1fr)); }
+    .grid-4 { grid-template-columns: repeat(4, minmax(0,1fr)); }
+    @media (max-width: 900px) { .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; } }
+
+    /* Header */
+    header { position: sticky; top: 0; z-index: 10; backdrop-filter: blur(8px); background: rgba(2,6,23,.7); border-bottom: 1px solid var(--border); }
+    .nav { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+    .brand { display: flex; align-items: center; gap: 12px; }
+    .logo { width: 40px; height: 40px; border-radius: 10px; background: linear-gradient(135deg, var(--primary), var(--accent)); display: grid; place-items: center; color: #020617; font-weight: 900; }
+    .nav a.btn { padding: 10px 14px; border-radius: 999px; background: var(--primary); color: #020617; font-weight: 700; box-shadow: var(--shadow); }
+    .nav a.btn:hover { background: var(--primary-600); }
+
+    /* Hero */
+    .hero { padding: 64px 0; }
+    .badge { display: inline-flex; align-items: center; gap: 8px; padding: 6px 10px; border-radius: 999px; background: rgba(56,189,248,.15); color: var(--accent); border: 1px solid rgba(56,189,248,.35); }
+    .hero h1 { font-size: clamp(32px, 5vw, 56px); line-height: 1.05; margin: 16px 0; }
+    .hero p { color: var(--muted); font-size: 18px; max-width: 680px; }
+    .cta { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 24px; }
+    .btn-primary { padding: 14px 18px; border-radius: 12px; background: var(--primary); color: #020617; font-weight: 800; box-shadow: var(--shadow); }
+    .btn-secondary { padding: 14px 18px; border-radius: 12px; border: 1px solid var(--border); }
+
+    .hero-card { border-radius: var(--radius); border: 1px solid var(--border); background: radial-gradient(1200px 400px at -10% -10%, rgba(34,197,94,.15), transparent 40%), var(--card); box-shadow: var(--shadow); overflow: hidden; }
+    .hero-card img { width: 100%; height: 100%; object-fit: cover; }
+
+    /* Sections */
+    section { padding: 64px 0; }
+    .section-title { font-size: 32px; margin-bottom: 12px; }
+    .section-sub { color: var(--muted); margin-bottom: 24px; }
+
+    .card { border-radius: var(--radius); border: 1px solid var(--border); background: var(--card); padding: 20px; box-shadow: var(--shadow); }
+    .icon { width: 40px; height: 40px; border-radius: 10px; background: rgba(34,197,94,.15); color: var(--primary); display: grid; place-items: center; font-weight: 900; }
+    .card h3 { margin: 12px 0 6px; }
+    .card p { color: var(--muted); }
+
+    /* Image placeholders */
+    .ph { position: relative; border-radius: 12px; overflow: hidden; border: 1px dashed var(--border); background: linear-gradient(135deg, #020617, #020617 40%, #020617); min-height: 180px; display: grid; place-items: center; }
+    .ph span { color: var(--muted); font-size: 14px; }
+
+    /* Video */
+    .video-wrap { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: var(--radius); border: 1px solid var(--border); box-shadow: var(--shadow); }
+    .video-wrap iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; }
+
+    /* Footer */
+    footer { border-top: 1px solid var(--border); background: rgba(2,6,23,.8); }
+    .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 24px; }
+    @media (max-width: 900px) { .footer-grid { grid-template-columns: 1fr; } }
+    .muted { color: var(--muted); }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header>
+    <div class="container nav">
+      <div class="brand">
+        <div class="logo">MR</div>
+        <strong>Menu-Rápido</strong>
+      </div>
+      <nav style="display:flex; gap:12px; align-items:center;">
+        <a href="#admin">Administrador</a>
+        <a href="#cliente">Cliente</a>
+        <a href="#video">Video</a>
+        <a href="#contacto" class="btn">Solicitar Demo</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="container grid grid-2">
+      <div>
+        <span class="badge">Sistema Integral de Gestión de Pedidos</span>
+        <h1>Menu-Rápido: Eficiencia para su negocio, simplicidad para sus clientes</h1>
+        <p>Descubra Menu-Rápido, la solución todo en uno diseñada para optimizar y modernizar la gestión de su negocio de comida. Interfaz cliente intuitiva + potente panel de administración.</p>
+        <div class="cta">
+          <a href="#contacto" class="btn-primary">Solicitar Demo</a>
+          <a href="#admin" class="btn-secondary">Ver funcionalidades</a>
+        </div>
+      </div>
+      <div class="hero-card">
+        <!-- Imagen placeholder principal -->
+        <img src="https://via.placeholder.com/1200x800?text=Imagen+Principal+del+Sistema" alt="Placeholder del sistema" />
+      </div>
+    </div>
+  </section>
+
+  <!-- Beneficios rápidos -->
+  <section>
+    <div class="container grid grid-3">
+      <div class="card">
+        <div class="icon">⚡</div>
+        <h3>Rápido y Ágil</h3>
+        <p>Flujo de pedidos optimizado de punta a punta.</p>
+      </div>
+      <div class="card">
+        <div class="icon">🔒</div>
+        <h3>Seguro</h3>
+        <p>Accesos protegidos y control de permisos.</p>
+      </div>
+      <div class="card">
+        <div class="icon">📈</div>
+        <h3>Escalable</h3>
+        <p>Crece con su negocio sin fricciones.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Administrador -->
+  <section id="admin">
+    <div class="container">
+      <h2 class="section-title">Para el Administrador</h2>
+      <p class="section-sub">Control total de su operación desde un panel completo y seguro.</p>
+      <div class="grid grid-3">
+        <div class="card">
+          <h3>Resumen del Panel</h3>
+          <p>Métricas clave e información relevante en tiempo real.</p>
+          <div class="ph"><span>Imagen: Dashboard / Métricas</span></div>
+        </div>
+        <div class="card">
+          <h3>Gestión de Categorías</h3>
+          <p>CRUD completo para organizar categorías de productos.</p>
+          <div class="ph"><span>Imagen: Categorías</span></div>
+        </div>
+        <div class="card">
+          <h3>Gestión de Menús y Productos</h3>
+          <p>Alta, edición y baja de productos e ítems del menú.</p>
+          <div class="ph"><span>Imagen: Menús y Productos</span></div>
+        </div>
+        <div class="card">
+          <h3>Gestión de Pedidos</h3>
+          <p>Supervise todos los pedidos desde un panel centralizado.</p>
+          <div class="ph"><span>Imagen: Pedidos</span></div>
+        </div>
+        <div class="card">
+          <h3>Gestión de Usuarios</h3>
+          <p>Administre permisos y accesos del personal.</p>
+          <div class="ph"><span>Imagen: Usuarios</span></div>
+        </div>
+        <div class="card">
+          <h3>Configuración del Sistema</h3>
+          <p>Personalice la información y ajustes generales.</p>
+          <div class="ph"><span>Imagen: Configuración</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Cliente -->
+  <section id="cliente">
+    <div class="container">
+      <h2 class="section-title">Para el Cliente</h2>
+      <p class="section-sub">Experiencia de pedido fluida, atractiva y segura.</p>
+      <div class="grid grid-3">
+        <div class="card">
+          <h3>Registro y Acceso Seguro</h3>
+          <p>Creación de cuenta e inicio de sesión protegidos.</p>
+          <div class="ph"><span>Imagen: Login / Registro</span></div>
+        </div>
+        <div class="card">
+          <h3>Lista de Menús Organizada</h3>
+          <p>Navegación clara con paginación optimizada.</p>
+          <div class="ph"><span>Imagen: Listado de Menú</span></div>
+        </div>
+        <div class="card">
+          <h3>Detalles de Producto</h3>
+          <p>Página o modal con información completa.</p>
+          <div class="ph"><span>Imagen: Detalle de Producto</span></div>
+        </div>
+        <div class="card">
+          <h3>Carrito Intuitivo</h3>
+          <p>Añadir, revisar y actualizar cantidades fácilmente.</p>
+          <div class="ph"><span>Imagen: Carrito</span></div>
+        </div>
+        <div class="card">
+          <h3>Proceso de Pago</h3>
+          <p>Checkout diseñado para cerrar la compra sin fricciones.</p>
+          <div class="ph"><span>Imagen: Checkout</span></div>
+        </div>
+        <div class="card">
+          <h3>Seguimiento de Pedido</h3>
+          <p>Estado del pedido en tiempo real (opcional).</p>
+          <div class="ph"><span>Imagen: Seguimiento</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Video -->
+  <section id="video">
+    <div class="container">
+      <h2 class="section-title">Vea Menu-Rápido en acción</h2>
+      <p class="section-sub">Demostración en video del sistema.</p>
+      <div class="video-wrap">
+        <iframe src="https://www.youtube.com/embed/VmwmtZbvVxg" title="Menu-Rápido Video" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section id="contacto">
+    <div class="container grid grid-2">
+      <div>
+        <h2 class="section-title">¿Listo para modernizar su negocio?</h2>
+        <p class="section-sub">Solicite una demo o cotización personalizada.</p>
+        <div class="card">
+          <p class="muted">Complete el formulario y nos contactaremos a la brevedad.</p>
+          <form onsubmit="event.preventDefault(); alert('Formulario de ejemplo. Reemplace por integración real.');" class="grid grid-2">
+            <input required placeholder="Nombre" style="padding:12px;border-radius:10px;border:1px solid var(--border);background:#020617;color:var(--text);" />
+            <input required placeholder="Email" type="email" style="padding:12px;border-radius:10px;border:1px solid var(--border);background:#020617;color:var(--text);" />
+            <input placeholder="Teléfono" style="padding:12px;border-radius:10px;border:1px solid var(--border);background:#020617;color:var(--text);" />
+            <input placeholder="Negocio" style="padding:12px;border-radius:10px;border:1px solid var(--border);background:#020617;color:var(--text);" />
+            <textarea placeholder="Mensaje" rows="4" style="grid-column:1/-1;padding:12px;border-radius:10px;border:1px solid var(--border);background:#020617;color:var(--text);"></textarea>
+            <button class="btn-primary" style="grid-column:1/-1;cursor:pointer;">Enviar</button>
+          </form>
+        </div>
+      </div>
+      <div class="hero-card">
+        <!-- Imagen placeholder secundaria -->
+        <img src="https://via.placeholder.com/1200x800?text=Imagen+Secundaria+del+Sistema" alt="Placeholder secundaria" />
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container footer-grid">
+      <div>
+        <strong>Menu-Rápido</strong>
+        <p class="muted">Sistema Integral de Gestión de Pedidos de Comida</p>
+      </div>
+      <div>
+        <strong>Producto</strong>
+        <p class="muted"><a href="#admin">Administrador</a></p>
+        <p class="muted"><a href="#cliente">Cliente</a></p>
+      </div>
+      <div>
+        <strong>Contacto</strong>
+        <p class="muted">demo@menurapido.com</p>
+        <p class="muted">+54 9 11 0000 0000</p>
+      </div>
+    </div>
+    <div class="container muted" style="text-align:center;">© <span id="year"></span> Menu-Rápido. Todos los derechos reservados.</div>
+  </footer>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
